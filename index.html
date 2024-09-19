@@ -3,23 +3,39 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>The DeGods Pushup Counter</title>
+    <title>DeGods Pushup Counter</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <div class="container">
+      <!-- Image Above the Title -->
+      <img src="depushup.jpg" alt="DeGods Pushup" class="pushup-image" />
+
       <!-- Title -->
-      <h1 class="page-title">The DeGods Pushup Counter</h1>
+      <h1 class="page-title">
+        <a href="https://degods.com/" target="_blank" class="degods-link"
+          >DeGods</a
+        >
+        have done
+      </h1>
 
       <!-- Main Pushup Counter -->
       <h2 id="pushup-counter">0</h2>
 
+      <h1 class="page-title">pushups today.</h1>
+
+      <!-- Small Text Above Button -->
+      <p class="small-text">have you done your pushups today?</p>
+
       <!-- Button to add pushups (opens a form) -->
-      <button id="add-pushups-btn">add your pushups</button>
+      <button id="add-pushups-btn">i did my pushups 💪</button>
 
       <!-- Leaderboard Section -->
       <div id="leaderboard">
         <h3>leaderboard</h3>
+        <!-- Timer below the leaderboard title -->
+        <p id="countdown-timer">Time left until reset: 00:00:00</p>
+
         <table>
           <thead>
             <tr>
@@ -31,6 +47,16 @@
           <tbody id="leaderboard-list"></tbody>
         </table>
       </div>
+
+      <!-- Link below the leaderboard -->
+      <p class="why-degods">
+        <a
+          href="https://twitter.com/search?q=degods+%22best+version+of+yourself%22&src=typed_query"
+          target="_blank"
+        >
+          why are DeGods doing pushups?
+        </a>
+      </p>
     </div>
 
     <script src="script.js"></script>

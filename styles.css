@@ -5,11 +5,10 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: Helvetica, Arial, sans-serif;
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    /* Push everything to the top */
     height: 100vh;
     background-color: #fff;
     color: #000;
@@ -18,45 +17,76 @@ body {
 .container {
     text-align: center;
     margin-top: 50px;
-    /* Adjust the title higher */
+}
+
+.pushup-image {
+    width: 150px;
+    height: auto;
+    margin-bottom: 20px;
 }
 
 .page-title {
     font-size: 36px;
     color: #000;
-    margin-bottom: 20px;
-    text-transform: lowercase;
+    margin-bottom: 10px;
+    /* Increased space after title */
+}
+
+/* Style for "DeGods" link but not styled like a link */
+.degods-link {
+    color: inherit;
+    /* Use inherited color (no link color) */
+    text-decoration: none;
+    /* No underline */
+    font-weight: bold;
+}
+
+.degods-link:visited {
+    color: inherit;
+    /* No color change after visiting */
 }
 
 #pushup-counter {
     font-size: 96px;
     color: #000;
-    margin-bottom: 20px;
-    text-transform: lowercase;
+    margin-bottom: 10px;
+}
+
+.small-text {
+    font-size: 24px;
+    margin-top: 60px;
+    margin-bottom: 0px;
+    font-weight: bold;
+    /* Made the text bold */
 }
 
 #add-pushups-btn {
     padding: 15px 30px;
     font-size: 18px;
+    font-weight: bold;
     background-color: #000;
-    border: none;
-    color: white;
+    color: #fff;
+    border: 4px solid #000;
+    /* Added black border even when not hovered */
     cursor: pointer;
-    margin-bottom: 40px;
-    border-radius: 5px;
-    text-transform: lowercase;
+    margin-bottom: 60px;
+    border-radius: 33px;
+    margin-top: 20px;
+    transition: background-color 0.3s, color 0.3s, border 0.3s;
 }
 
 #add-pushups-btn:hover {
-    background-color: #000;
-    color: #fff;
+    background-color: #fff;
+    color: #000;
+    border: 4px solid #000;
 }
 
 #leaderboard {
     background-color: #fff;
     padding: 20px;
-    border-radius: 10px;
     border: 1px solid #000;
+    /* No rounded edges */
+    margin-top: 30px;
     width: 100%;
     max-width: 500px;
     margin: 0 auto;
@@ -64,27 +94,45 @@ body {
 
 #leaderboard h3 {
     font-size: 24px;
-    margin-bottom: 15px;
-    text-transform: lowercase;
+    margin-bottom: 5px;
+    /* Reduced margin between the leaderboard title and countdown */
+}
+
+#countdown-timer {
+    margin-top: 5px;
+    margin-bottom: 20px;
+    /* Added space below countdown timer */
+    font-size: 16px;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
+    border: none;
 }
 
 table th,
 table td {
     padding: 12px;
-    border: 1px solid #000;
-    text-transform: lowercase;
-    text-align: left;
+    border: none;
 }
 
 table th {
     background-color: #fff;
     font-weight: bold;
 }
+
+/* Align the 'twitter username' header to the left */
+table th:first-child {
+    text-align: left;
+}
+
+/* Align the 'pushups' and 'proof' headers to the right */
+table th:nth-child(2),
+table th:nth-child(3) {
+    text-align: center;
+}
+
 
 table td a {
     color: #000;
@@ -93,4 +141,73 @@ table td a {
 
 table td a:hover {
     text-decoration: underline;
+}
+
+/* Alignments */
+table td.username {
+    text-align: left;
+    /* Left-align usernames */
+}
+
+table td.pushups {
+    text-align: center;
+    /* Right-align pushups */
+}
+
+table td.proof {
+    text-align: center;
+    /* Change alignment to right */
+}
+
+/* PR badge styling */
+.pr-badge {
+    font-size: 12px;
+    font-weight: bold;
+    color: red;
+    /* Change color to red */
+    margin-left: 5px;
+    position: relative;
+    cursor: pointer;
+}
+
+/* Tooltip on PR badge hover */
+.pr-badge:hover::after {
+    content: 'personal record';
+    position: absolute;
+    top: -25px;
+    /* Adjusted to position above the PR badge */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 10px;
+    white-space: nowrap;
+}
+
+/* Styling for placement numbers */
+.placement-number {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+/* Style for the "why are DeGods doing pushups?" link */
+.why-degods {
+    margin-top: 20px;
+    margin-bottom: 60px;
+}
+
+.why-degods a {
+    font-size: 18px;
+    color: #000;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.why-degods a:hover {
+    text-decoration: underline;
+    color: #555;
+    /* Change color on hover for better interaction */
 }
