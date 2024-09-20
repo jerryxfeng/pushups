@@ -1,11 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Basic Meta Tags -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DeGods Pushup Counter</title>
+    <meta
+      name="description"
+      content="track the total number of pushups done by the degods community. add yours to the count to join the leaderboard."
+    />
+    <meta
+      name="keywords"
+      content="DeGods, Pushup Counter, Leaderboard, Pushups, Fitness, NFT Community"
+    />
+    <meta name="author" content="Jerry Feng" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://degods.com/pushups" />
+    <meta property="og:title" content="degods pushup counter" />
+    <meta
+      property="og:description"
+      content="track the total number of pushups done by the degods community. add yours to the count to join the leaderboard."
+    />
+    <!-- Pointing to your meta image in the root folder -->
+    <meta property="og:image" content="/metaimage.png" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://degods.com/pushups" />
+    <meta name="twitter:title" content="degods pushup counter" />
+    <meta
+      name="twitter:description"
+      content="track the total number of pushups done by the degods community. add yours to the count to join the leaderboard."
+    />
+    <!-- Pointing to your meta image in the root folder -->
+    <meta name="twitter:image" content="/metaimage.png" />
+
+    <!-- Title -->
+    <title>degods pushup counter</title>
+
+    <!-- Favicon -->
+    <!-- Pointing to your favicon in the root folder -->
+    <link rel="icon" href="/favicon.png" type="image/x-icon" />
+
+    <!-- Stylesheet -->
     <link rel="stylesheet" href="styles.css" />
   </head>
+
   <body>
     <div class="container">
       <!-- Image Above the Title -->
@@ -21,7 +62,12 @@
 
       <!-- Main Pushup Counter -->
       <div class="counter-container">
-        <div class="pulsating-circle"></div>
+        <div class="ping-dot-container">
+          <span class="ping-dot">
+            <span class="ping-dot-outer"></span>
+            <span class="ping-dot-inner"></span>
+          </span>
+        </div>
         <h2 id="pushup-counter">0</h2>
       </div>
 
@@ -43,7 +89,6 @@
       <!-- Leaderboard Section -->
       <div id="leaderboard">
         <h3>leaderboard</h3>
-
         <table>
           <thead>
             <tr>
@@ -62,6 +107,7 @@
       </div>
     </div>
 
+    <!-- Script -->
     <script src="script.js"></script>
   </body>
 </html>

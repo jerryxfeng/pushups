@@ -49,10 +49,8 @@ function updateLeaderboard(data) {
   const leaderboard = document.getElementById("leaderboard-list");
   leaderboard.innerHTML = "";
 
-  // Create objects to store all-time total, personal best (PB), and today's pushups for each user
   const userStats = {};
 
-  // Calculate stats for each user
   data.forEach((entry) => {
     const twitterUsername = extractTwitterUsername(entry.proofLink);
 
@@ -62,33 +60,32 @@ function updateLeaderboard(data) {
         personalBest: 0,
         personalBestLink: "",
         today: 0,
-        latestSubmissionLink: "",
+        todayLink: "",
+        latestSubmissionDate: null,
       };
     }
 
-    // Update all-time total pushups
     userStats[twitterUsername].allTime += entry.pushups;
 
-    // Update personal best (PB)
     if (entry.pushups > userStats[twitterUsername].personalBest) {
       userStats[twitterUsername].personalBest = entry.pushups;
       userStats[twitterUsername].personalBestLink = entry.proofLink;
     }
 
-    // Update today's pushups if submission was made in the last 24 hours
     const yesterday = getYesterdayDate();
     if (entry.submittedAt > yesterday) {
-      userStats[twitterUsername].today += entry.pushups;
-      userStats[twitterUsername].latestSubmissionLink = entry.proofLink;
+      if (entry.submittedAt > userStats[twitterUsername].latestSubmissionDate) {
+        userStats[twitterUsername].today = entry.pushups;
+        userStats[twitterUsername].todayLink = entry.proofLink;
+        userStats[twitterUsername].latestSubmissionDate = entry.submittedAt;
+      }
     }
   });
 
-  // Sort users by all-time total pushups
   const sortedUsers = Object.keys(userStats).sort(
     (a, b) => userStats[b].allTime - userStats[a].allTime
   );
 
-  // Create leaderboard rows
   sortedUsers.forEach((username, index) => {
     const tr = document.createElement("tr");
 
@@ -136,17 +133,15 @@ function updateLeaderboard(data) {
 
     // Today's pushups column
     const todayTd = document.createElement("td");
-
     if (userStats[username].today > 0) {
       const todayLink = document.createElement("a");
       todayLink.textContent = userStats[username].today;
-      todayLink.href = userStats[username].latestSubmissionLink;
+      todayLink.href = userStats[username].todayLink;
       todayLink.target = "_blank";
       todayTd.appendChild(todayLink);
     } else {
       todayTd.textContent = "-"; // Show a dash if no pushups were submitted today
     }
-
     tr.appendChild(todayTd);
 
     // Append the row to the leaderboard
