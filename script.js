@@ -133,15 +133,16 @@ function updateLeaderboard(data) {
     // Today's pushups column
     const todayTd = document.createElement("td");
 
-    // If today's pushups are 0, don't display anything or a link
     if (userStats[username].today > 0) {
       const todayLink = document.createElement("a");
       todayLink.textContent = userStats[username].today;
       todayLink.href = userStats[username].latestSubmissionLink;
       todayLink.target = "_blank";
       todayTd.appendChild(todayLink);
+    } else {
+      todayTd.textContent = "-"; // Show a dash if no pushups were submitted today
     }
-    // Leave it empty if today’s pushups are 0
+
     tr.appendChild(todayTd);
 
     // Append the row to the leaderboard

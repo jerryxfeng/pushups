@@ -14,7 +14,7 @@
       <!-- Title -->
       <h1 class="page-title">
         <a href="https://degods.com/" target="_blank" class="degods-link"
-          >DeGods</a
+          >degods</a
         >
         have done
       </h1>
@@ -25,13 +25,20 @@
         <h2 id="pushup-counter">0</h2>
       </div>
 
-      <h1 class="page-title">pushups.</h1>
-
-      <!-- Small Text Above Button -->
-      <p class="small-text">have you done your pushups today?</p>
+      <h1 class="page-title">pushups so far.</h1>
 
       <!-- Button to add pushups (opens a form) -->
-      <button id="add-pushups-btn">I did my pushups 💪</button>
+      <button id="add-pushups-btn">add mine to the count 💪</button>
+
+      <!-- Smaller text directly below button -->
+      <p class="pushup-info">
+        <a
+          href="https://twitter.com/search?q=degods+%22best+version+of+yourself%22&src=typed_query"
+          target="_blank"
+          class="degods-link"
+          >degods do pushups every day</a
+        >
+      </p>
 
       <!-- Leaderboard Section -->
       <div id="leaderboard">
@@ -40,30 +47,19 @@
         <table>
           <thead>
             <tr>
-              <th>twitter username</th>
+              <th>twitter</th>
               <th>all time</th>
               <th>
                 <span class="tooltip"
-                  >daily PB<span class="tooltip-text">personal best</span></span
+                  >daily pb<span class="tooltip-text">personal best</span></span
                 >
               </th>
-              <!-- Tooltip added here -->
               <th>today</th>
             </tr>
           </thead>
           <tbody id="leaderboard-list"></tbody>
         </table>
       </div>
-
-      <!-- Link below the leaderboard -->
-      <p class="why-degods">
-        <a
-          href="https://twitter.com/search?q=degods+%22best+version+of+yourself%22&src=typed_query"
-          target="_blank"
-        >
-          why are DeGods doing pushups?
-        </a>
-      </p>
     </div>
 
     <script src="script.js"></script>

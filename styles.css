@@ -29,21 +29,16 @@ body {
     font-size: 36px;
     color: #000;
     margin-bottom: 10px;
-    /* Increased space after title */
 }
 
-/* Style for "DeGods" link but not styled like a link */
 .degods-link {
     color: inherit;
-    /* Use inherited color (no link color) */
     text-decoration: none;
-    /* No underline */
     font-weight: bold;
 }
 
 .degods-link:visited {
     color: inherit;
-    /* No color change after visiting */
 }
 
 #pushup-counter {
@@ -57,7 +52,6 @@ body {
     margin-top: 60px;
     margin-bottom: 0px;
     font-weight: bold;
-    /* Made the text bold */
 }
 
 #add-pushups-btn {
@@ -67,11 +61,11 @@ body {
     background-color: #000;
     color: #fff;
     border: 4px solid #000;
-    /* Added black border even when not hovered */
     cursor: pointer;
-    margin-bottom: 60px;
+    margin-bottom: 0px;
     border-radius: 33px;
     margin-top: 20px;
+    /* Added 60px of margin above the button */
     transition: background-color 0.3s, color 0.3s, border 0.3s;
 }
 
@@ -81,28 +75,35 @@ body {
     border: 4px solid #000;
 }
 
+.pushup-info {
+    font-size: 14px;
+    font-weight: normal;
+    margin-top: 10px;
+    margin-bottom: 40px;
+    /* Add space between the text and leaderboard */
+}
+
+.pushup-info a {
+    font-weight: normal;
+    /* Override bold styling */
+}
+
 #leaderboard {
     background-color: #fff;
     padding: 20px;
     border: 1px solid #000;
-    /* No rounded edges */
-    margin-top: 30px;
+    margin-top: 60px;
+    /* Added 60px of margin above the leaderboard */
     width: 100%;
     max-width: 500px;
     margin: 0 auto;
+    margin-bottom: 60px;
+    /* Bottom margin to add space at the bottom */
 }
 
 #leaderboard h3 {
     font-size: 24px;
     margin-bottom: 5px;
-    /* Reduced margin between the leaderboard title and countdown */
-}
-
-#countdown-timer {
-    margin-top: 5px;
-    margin-bottom: 20px;
-    /* Added space below countdown timer */
-    font-size: 16px;
 }
 
 table {
@@ -122,12 +123,10 @@ table th {
     font-weight: bold;
 }
 
-/* Align the 'twitter username' header to the left */
 table th:first-child {
     text-align: left;
 }
 
-/* Align the 'pushups' and 'proof' headers to the right */
 table th:nth-child(2),
 table th:nth-child(3) {
     text-align: center;
@@ -142,56 +141,29 @@ table td a:hover {
     text-decoration: underline;
 }
 
-/* Alignments */
 table td.username {
     text-align: left;
-    /* Left-align usernames */
 }
 
 table td.pushups {
     text-align: center;
-    /* Right-align pushups */
 }
 
 table td.proof {
     text-align: center;
-    /* Change alignment to right */
 }
 
-/* Styling for placement numbers */
 .placement-number {
     font-weight: bold;
     margin-right: 5px;
 }
 
-/* Style for the "why are DeGods doing pushups?" link */
-.why-degods {
-    margin-top: 20px;
-    margin-bottom: 60px;
-}
-
-.why-degods a {
-    font-size: 18px;
-    color: #000;
-    text-decoration: none;
-    font-weight: bold;
-    transition: color 0.3s ease;
-}
-
-.why-degods a:hover {
-    text-decoration: underline;
-    color: #555;
-    /* Change color on hover for better interaction */
-}
-
-/* Tooltip container */
 .tooltip {
     position: relative;
     display: inline-block;
     cursor: pointer;
 }
 
-/* Tooltip text */
 .tooltip .tooltip-text {
     visibility: hidden;
     width: 140px;
@@ -203,15 +175,12 @@ table td.proof {
     position: absolute;
     z-index: 1;
     bottom: 125%;
-    /* Position above */
     left: 50%;
     margin-left: -70px;
-    /* Center the tooltip */
     opacity: 0;
     transition: opacity 0.3s;
 }
 
-/* Show the tooltip text when hovering */
 .tooltip:hover .tooltip-text {
     visibility: visible;
     opacity: 1;
@@ -228,9 +197,7 @@ table td.proof {
     height: 20px;
     border-radius: 50%;
     background-color: #00ff00;
-    /* Green color */
     margin-right: 20px;
-    /* Add space between the circle and the counter */
     position: relative;
     animation: pulse 1.5s infinite;
 }
