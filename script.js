@@ -104,7 +104,11 @@ function updateLeaderboard(data) {
       const medal =
         index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : "";
       usernameTd.innerHTML = `${medal} `;
+    } else if (index === sortedUsers.length - 1) {
+      // If this is the last user, display 💩 emoji instead of a rank number
+      usernameTd.innerHTML = `💩 `;
     } else {
+      // For all other users, display their rank number
       const placeNumber = document.createElement("span");
       placeNumber.classList.add("placement-number");
       placeNumber.textContent = `${index + 1}.`;
