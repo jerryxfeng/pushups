@@ -20,15 +20,18 @@
       </h1>
 
       <!-- Main Pushup Counter -->
-      <h2 id="pushup-counter">0</h2>
+      <div class="counter-container">
+        <div class="pulsating-circle"></div>
+        <h2 id="pushup-counter">0</h2>
+      </div>
 
-      <h1 class="page-title">pushups today.</h1>
+      <h1 class="page-title">pushups.</h1>
 
       <!-- Small Text Above Button -->
       <p class="small-text">have you done your pushups today?</p>
 
       <!-- Button to add pushups (opens a form) -->
-      <button id="add-pushups-btn">i did my pushups 💪</button>
+      <button id="add-pushups-btn">I did my pushups 💪</button>
 
       <!-- Leaderboard Section -->
       <div id="leaderboard">
@@ -38,8 +41,14 @@
           <thead>
             <tr>
               <th>twitter username</th>
-              <th>pushups</th>
-              <th>proof</th>
+              <th>all time</th>
+              <th>
+                <span class="tooltip"
+                  >daily PB<span class="tooltip-text">personal best</span></span
+                >
+              </th>
+              <!-- Tooltip added here -->
+              <th>today</th>
             </tr>
           </thead>
           <tbody id="leaderboard-list"></tbody>

@@ -8,7 +8,7 @@ async function fetchPushupData() {
     const response = await fetch(csvUrl);
     const csvText = await response.text();
     const data = parseCSV(csvText);
-    animatePushupCounter(data); // Use animated counter function
+    animatePushupCounter(data);
     updateLeaderboard(data);
   } catch (error) {
     console.error("Error fetching the pushup data:", error);
@@ -24,28 +24,11 @@ function parseCSV(csvText) {
     return {
       submissionID,
       respondentID,
-      submittedAt,
+      submittedAt: new Date(submittedAt), // Parse date
       pushups: parseInt(pushups) || 0,
       proofLink,
     };
   });
-}
-
-// Animate pushup counter
-function animatePushupCounter(data) {
-  const totalPushups = data.reduce((total, entry) => total + entry.pushups, 0);
-  const counterElement = document.getElementById("pushup-counter");
-  let count = 0;
-  const increment = totalPushups / 300;
-
-  const counterInterval = setInterval(() => {
-    count += increment;
-    counterElement.textContent = Math.floor(count);
-    if (count >= totalPushups) {
-      clearInterval(counterInterval);
-      counterElement.textContent = totalPushups;
-    }
-  }, 60);
 }
 
 // Extract Twitter username from the proof link
@@ -54,95 +37,137 @@ function extractTwitterUsername(proofLink) {
   return `@${urlParts[3]}`;
 }
 
-// Find the highest pushup record for each user (by Twitter username)
-function findUserPRs(data) {
-  const userPRs = {};
-
-  data.forEach((entry) => {
-    const twitterUsername = extractTwitterUsername(entry.proofLink);
-
-    if (!userPRs[twitterUsername] || entry.pushups > userPRs[twitterUsername]) {
-      userPRs[twitterUsername] = entry.pushups;
-    }
-  });
-
-  return userPRs;
+// Get the date 24 hours ago
+function getYesterdayDate() {
+  const now = new Date();
+  now.setDate(now.getDate() - 1);
+  return now;
 }
 
-// Update the leaderboard to show each submission separately
+// Update the leaderboard to show the four columns with formatting
 function updateLeaderboard(data) {
-  console.log("Leaderboard Data:", data); // Log the entire parsed data to console
-
   const leaderboard = document.getElementById("leaderboard-list");
   leaderboard.innerHTML = "";
 
-  // Find the PR for each user (by Twitter username)
-  const userPRs = findUserPRs(data);
+  // Create objects to store all-time total, personal best (PB), and today's pushups for each user
+  const userStats = {};
 
-  // No filtering by today's date, consider all entries
-  const allEntries = data;
-
-  // Sort by most pushups
-  allEntries.sort((a, b) => b.pushups - a.pushups);
-
-  allEntries.forEach((entry, index) => {
-    const tr = document.createElement("tr");
-
-    const usernameTd = document.createElement("td");
-    const usernameLink = document.createElement("a");
+  // Calculate stats for each user
+  data.forEach((entry) => {
     const twitterUsername = extractTwitterUsername(entry.proofLink);
 
-    // For top 3, add medal emojis, for others add placement number
+    if (!userStats[twitterUsername]) {
+      userStats[twitterUsername] = {
+        allTime: 0,
+        personalBest: 0,
+        personalBestLink: "",
+        today: 0,
+        latestSubmissionLink: "",
+      };
+    }
+
+    // Update all-time total pushups
+    userStats[twitterUsername].allTime += entry.pushups;
+
+    // Update personal best (PB)
+    if (entry.pushups > userStats[twitterUsername].personalBest) {
+      userStats[twitterUsername].personalBest = entry.pushups;
+      userStats[twitterUsername].personalBestLink = entry.proofLink;
+    }
+
+    // Update today's pushups if submission was made in the last 24 hours
+    const yesterday = getYesterdayDate();
+    if (entry.submittedAt > yesterday) {
+      userStats[twitterUsername].today += entry.pushups;
+      userStats[twitterUsername].latestSubmissionLink = entry.proofLink;
+    }
+  });
+
+  // Sort users by all-time total pushups
+  const sortedUsers = Object.keys(userStats).sort(
+    (a, b) => userStats[b].allTime - userStats[a].allTime
+  );
+
+  // Create leaderboard rows
+  sortedUsers.forEach((username, index) => {
+    const tr = document.createElement("tr");
+
+    // Username column with emojis and rank
+    const usernameTd = document.createElement("td");
+    const usernameLink = document.createElement("a");
+    usernameLink.textContent = username;
+    usernameLink.href = `https://twitter.com/${username.replace("@", "")}`;
+    usernameLink.target = "_blank";
+
+    // Add emoji for top 3 users
     if (index < 3) {
       const medal =
         index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : "";
-      usernameLink.textContent = `${medal} ${twitterUsername}`;
+      usernameTd.innerHTML = `${medal} `;
     } else {
       const placeNumber = document.createElement("span");
       placeNumber.classList.add("placement-number");
-      placeNumber.textContent = `${index + 1}.`; // Add place number for users after top 3
+      placeNumber.textContent = `${index + 1}.`;
       usernameTd.appendChild(placeNumber);
-      usernameLink.textContent = ` ${twitterUsername}`; // Add username next to placement
     }
-    usernameLink.href = `https://twitter.com/${twitterUsername.replace(
-      "@",
-      ""
-    )}`;
-    usernameLink.target = "_blank";
+
     usernameTd.appendChild(usernameLink);
     usernameTd.classList.add("username");
+    usernameTd.style.textAlign = "left"; // Align usernames to the left
     tr.appendChild(usernameTd);
 
-    const pushupsTd = document.createElement("td");
-    pushupsTd.textContent = entry.pushups;
-    pushupsTd.classList.add("pushups");
+    // All time pushups column
+    const allTimeTd = document.createElement("td");
+    allTimeTd.textContent = userStats[username].allTime;
+    tr.appendChild(allTimeTd);
 
-    // Add PR badge if this is their personal record (highest pushup count ever)
-    if (entry.pushups === userPRs[twitterUsername]) {
-      const prBadge = document.createElement("span");
-      prBadge.classList.add("pr-badge");
-      prBadge.textContent = "PR";
-      pushupsTd.appendChild(prBadge);
+    // Personal best (PB) column
+    const pbTd = document.createElement("td");
+    const pbLink = document.createElement("a");
+    pbLink.textContent = userStats[username].personalBest;
+    pbLink.href = userStats[username].personalBestLink;
+    pbLink.target = "_blank";
+    pbTd.appendChild(pbLink);
+    tr.appendChild(pbTd);
+
+    // Today's pushups column
+    const todayTd = document.createElement("td");
+
+    // If today's pushups are 0, don't display anything or a link
+    if (userStats[username].today > 0) {
+      const todayLink = document.createElement("a");
+      todayLink.textContent = userStats[username].today;
+      todayLink.href = userStats[username].latestSubmissionLink;
+      todayLink.target = "_blank";
+      todayTd.appendChild(todayLink);
     }
+    // Leave it empty if today’s pushups are 0
+    tr.appendChild(todayTd);
 
-    tr.appendChild(pushupsTd);
-
-    const proofTd = document.createElement("td");
-    const proofLinkElement = document.createElement("a");
-    proofLinkElement.href = entry.proofLink;
-    proofLinkElement.textContent = "watch vid"; // Change "proof" to "watch vid"
-    proofLinkElement.target = "_blank";
-    proofTd.appendChild(proofLinkElement);
-    proofTd.classList.add("proof");
-    tr.appendChild(proofTd);
-
+    // Append the row to the leaderboard
     leaderboard.appendChild(tr);
   });
 }
 
+// Animate pushup counter
+function animatePushupCounter(data) {
+  const totalPushups = data.reduce((total, entry) => total + entry.pushups, 0);
+  const counterElement = document.getElementById("pushup-counter");
+  let count = 0;
+  const increment = totalPushups / 100;
+
+  const counterInterval = setInterval(() => {
+    count += increment;
+    counterElement.textContent = Math.floor(count);
+    if (count >= totalPushups) {
+      clearInterval(counterInterval);
+      counterElement.textContent = totalPushups;
+    }
+  }, 20);
+}
+
 // Fetch data on page load
 fetchPushupData();
-startCountdownToMidnight();
 
 // Button to add pushups
 document.getElementById("add-pushups-btn").addEventListener("click", () => {

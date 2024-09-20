@@ -133,7 +133,6 @@ table th:nth-child(3) {
     text-align: center;
 }
 
-
 table td a {
     color: #000;
     text-decoration: none;
@@ -157,33 +156,6 @@ table td.pushups {
 table td.proof {
     text-align: center;
     /* Change alignment to right */
-}
-
-/* PR badge styling */
-.pr-badge {
-    font-size: 12px;
-    font-weight: bold;
-    color: red;
-    /* Change color to red */
-    margin-left: 5px;
-    position: relative;
-    cursor: pointer;
-}
-
-/* Tooltip on PR badge hover */
-.pr-badge:hover::after {
-    content: 'personal record';
-    position: absolute;
-    top: -25px;
-    /* Adjusted to position above the PR badge */
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #333;
-    color: white;
-    padding: 5px;
-    border-radius: 5px;
-    font-size: 10px;
-    white-space: nowrap;
 }
 
 /* Styling for placement numbers */
@@ -210,4 +182,72 @@ table td.proof {
     text-decoration: underline;
     color: #555;
     /* Change color on hover for better interaction */
+}
+
+/* Tooltip container */
+.tooltip {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+/* Tooltip text */
+.tooltip .tooltip-text {
+    visibility: hidden;
+    width: 140px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    /* Position above */
+    left: 50%;
+    margin-left: -70px;
+    /* Center the tooltip */
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+/* Show the tooltip text when hovering */
+.tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+.counter-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pulsating-circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #00ff00;
+    /* Green color */
+    margin-right: 20px;
+    /* Add space between the circle and the counter */
+    position: relative;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.5);
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
