@@ -31,41 +31,6 @@ function parseCSV(csvText) {
   });
 }
 
-// Countdown Timer Logic
-function startCountdownToMidnight() {
-  const timerElement = document.getElementById("countdown-timer");
-
-  function updateCountdown() {
-    const now = new Date();
-
-    // Get current time in Pacific Time (PT), accounting for daylight savings
-    const pacificTime = new Date(
-      now.toLocaleString("en-US", { timeZone: "America/Los_Angeles" })
-    );
-
-    // Get the next midnight time in Pacific Time
-    const nextMidnight = new Date(pacificTime);
-    nextMidnight.setHours(24, 0, 0, 0); // Set to midnight of the next day
-
-    // Calculate the time remaining
-    const timeRemaining = nextMidnight - pacificTime;
-    const hours = Math.floor((timeRemaining / (1000 * 60 * 60)) % 24);
-    const minutes = Math.floor((timeRemaining / (1000 * 60)) % 60);
-    const seconds = Math.floor((timeRemaining / 1000) % 60);
-
-    timerElement.textContent = `resets in: ${padNumber(hours)}:${padNumber(
-      minutes
-    )}:${padNumber(seconds)}`;
-    setTimeout(updateCountdown, 1000);
-  }
-
-  function padNumber(num) {
-    return num < 10 ? "0" + num : num;
-  }
-
-  updateCountdown();
-}
-
 // Animate pushup counter
 function animatePushupCounter(data) {
   const totalPushups = data.reduce((total, entry) => total + entry.pushups, 0);
@@ -106,23 +71,21 @@ function findUserPRs(data) {
 
 // Update the leaderboard to show each submission separately
 function updateLeaderboard(data) {
+  console.log("Leaderboard Data:", data); // Log the entire parsed data to console
+
   const leaderboard = document.getElementById("leaderboard-list");
   leaderboard.innerHTML = "";
 
   // Find the PR for each user (by Twitter username)
   const userPRs = findUserPRs(data);
 
-  // Get today's date in YYYY-MM-DD format
-  const today = new Date().toISOString().split("T")[0];
-
-  const todayEntries = data.filter(
-    (entry) => entry.submittedAt.split(" ")[0] === today
-  );
+  // No filtering by today's date, consider all entries
+  const allEntries = data;
 
   // Sort by most pushups
-  todayEntries.sort((a, b) => b.pushups - a.pushups);
+  allEntries.sort((a, b) => b.pushups - a.pushups);
 
-  todayEntries.forEach((entry, index) => {
+  allEntries.forEach((entry, index) => {
     const tr = document.createElement("tr");
 
     const usernameTd = document.createElement("td");
@@ -167,7 +130,7 @@ function updateLeaderboard(data) {
     const proofTd = document.createElement("td");
     const proofLinkElement = document.createElement("a");
     proofLinkElement.href = entry.proofLink;
-    proofLinkElement.textContent = "watch vid 🎬"; // Change "proof" to "watch vid"
+    proofLinkElement.textContent = "watch vid"; // Change "proof" to "watch vid"
     proofLinkElement.target = "_blank";
     proofTd.appendChild(proofLinkElement);
     proofTd.classList.add("proof");
